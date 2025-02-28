@@ -2,31 +2,48 @@
 
 %% 0) Imports/paths
 
-addpath(genpath('/Users/judy/HMM-MAR-master'))
+addpath(genpath(pwd)); % adds current path
+addpath(genpath([pwd,'Parcellation_Figures']));
+codeDir = pwd;
+cd ../;
+mainDir = pwd;
+cd(codeDir);
+dataDir    = [mainDir,filesep,'data_HMM',filesep]; % this is what I called the folder where I stored the data you sent me
+toolboxDir = [mainDir,filesep,'Toolboxes',filesep,'HMM-MAR-master',filesep]; % this is where I store the toolbox but you may have oranised that differently
+addpath(genpath(dataDir)); 
+addpath(genpath(toolboxDir)); 
 
 %% 1) Formating hmmar inputs
 
 % 1a) Format "DataCll" (subject data)
 %%% Initialise "DataCll" cell w correct dimensions
-DataCll = cell(1,1);
+% DataCll = cell(1,1);
 %%%% Load individual parcellated subject files into "DataCll"
-DataCll{1,1} = load('/Users/judy/Yeo_parcellated_test_sub.txt', "-ascii");
+% format needs to be no timepoint X no channels
+DataCll = load([dataDir,'/Yeo_parcellated_test_sub.txt'], "-ascii");
+DataCll = {DataCll};
 
 % 1b) Format "T" (time)
 %%% Initialise "T" cell w correct dimensions
-T = cell(1,1);
+% T = cell(1,1);
+
 %%% Populate "T" w number of slices through time
-T{1,1} = [327];
+% T{1,1}=327;
+%it can be either a (N X 1) vector (where N is the total number of trials or segments for all subjects) 
+% containing the length of each trial/segment/subject, or a (no. of subjects X 1) cell with each element 
+% containing a vector (no. of trials X 1) reflecting the length of the trials for that particular subject.
+
+T=cell(327,1); % if this is always only one number you can also delete T = cell(1,1,)
 
 % 1c) Format "options"
 options = struct();
-options.K = 6;  % Number of states
-options.order = 0;  % Order of the MAR model
+options.K        = 6;  % Number of states
+options.order    = 0;  % Order of the MAR model
 options.zeromean = 0;  
-options.covtype = 'full';
+options.covtype  = 'full';
 options.standardise = 1;
 options.verbose = 1;
-options.Fs = 1/0.8;
+options.Fs      = 1/0.8;
 
 %DirichletDiag makes states more sticky
 
@@ -37,8 +54,8 @@ options.Fs = 1/0.8;
 
 %Fs is 1/0.8 (frequency is how many pictures per sec)
 %% 2) HMM Estimation via hmmar
-
-[hmm, Gamma, Xi, vpath, GammaInit, residuals, fehist] = hmmmar (DataCll,T,options);
+% I couldnt figure out where this function comes from?
+[hmm, Gamma, Xi, vpath, GammaInit, residuals, fehist] = hmmmar(DataCll,T,options); 
 
 %% 3) Results Analysis
 
