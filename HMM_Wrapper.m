@@ -9,7 +9,8 @@ cd ../;
 mainDir = pwd;
 cd(codeDir);
 dataDir    = [mainDir,filesep,'data_HMM',filesep]; % this is what I called the folder where I stored the data you sent me
-toolboxDir = [mainDir,filesep,'Toolboxes',filesep,'HMM-MAR-master',filesep]; % this is where I store the toolbox but you may have oranised that differently
+%toolboxDir = [mainDir,filesep,'Toolboxes',filesep,'HMM-MAR-master',filesep]; % this is where I store the toolbox but you may have oranised that differently
+addpath(genpath('/Users/judy/HMM-MAR-master')) %not sure why the above isn't working, but this line works for me
 addpath(genpath(dataDir)); 
 addpath(genpath(toolboxDir)); 
 
@@ -29,11 +30,11 @@ DataCll = {DataCll};
 
 %%% Populate "T" w number of slices through time
 % T{1,1}=327;
-%it can be either a (N X 1) vector (where N is the total number of trials or segments for all subjects) 
-% containing the length of each trial/segment/subject, or a (no. of subjects X 1) cell with each element 
+% Setting T to be a (no. of subjects X 1) cell with each element 
 % containing a vector (no. of trials X 1) reflecting the length of the trials for that particular subject.
 
-T=cell(327,1); % if this is always only one number you can also delete T = cell(1,1,)
+T=cell(1,1);
+T{1,1} = [327];
 
 % 1c) Format "options"
 options = struct();
