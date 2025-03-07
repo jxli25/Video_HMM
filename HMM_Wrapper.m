@@ -2,6 +2,7 @@
 
 %% 0) Imports/paths
 
+% 1)
 addpath(genpath(pwd)); % adds current path
 addpath(genpath([pwd,'Parcellation_Figures']));
 codeDir = pwd;
@@ -13,6 +14,11 @@ dataDir    = [mainDir,filesep,'data_HMM',filesep]; % this is what I called the f
 addpath(genpath('/Users/judy/HMM-MAR-master')) %not sure why the above isn't working, but this line works for me
 addpath(genpath(dataDir)); 
 addpath(genpath(toolboxDir)); 
+
+%2)
+
+%3)
+addpath(genpath('/Users/judy/nilearn_data/yeo_2011/Yeo_JNeurophysiol11_MNI152')
 
 %% 1) Formating hmmar inputs
 
@@ -81,12 +87,14 @@ FractionalOccupancy = getFractionalOccupancy(Gamma, T, options,dim);
 [viterbipath] = hmmdecode(DataCll,T,hmm,1);
 
 % %Visualising Brain States
-% k = [1:options.K] %specifies which states to visualise
-% parcellationfile = DataCll
-% onconnectivity = 0
-% maps = makeMap(hmm,k,parcellationfile,onconnectivity)
-% 
-% %If parcellationfile (which contains the original parcellation or ICA decomposition) is a NIFTI file, then also a maskfile needs to be specified, and OSL needs to be installed an in the path; if it is a CIFTI file, then it has to be a dtseries.nii file (see below to convert from func.gii to dtseries.nii). 
+k = [1:options.K] %specifies which states to visualise
+%parcellationfile = load_nii('/Users/judy/nilearn_data/yeo_2011/Yeo_JNeurophysiol11_MNI152/Yeo2011_17Networks_MNI152_FreeSurferConformed1mm_LiberalMask.nii.gz
+onconnectivity = 0
+maps = makeMap(hmm,k,parcellationfile,onconnectivity)
+% load_nii('path_to_yeo2011_parcellation.nii');
+% %If parcellationfile (which contains the original parcellation or ICA decomposition) is a NIFTI 
+% file, then also a maskfile needs to be specified, and OSL needs to be installed an in the path; 
+% if it is a CIFTI file, then it has to be a dtseries.nii file (see below to convert from func.gii to dtseries.nii). 
 % 
 % % Assuming `data` contains time series data for each brain region
 % % and you want to create a CIFTI time series file

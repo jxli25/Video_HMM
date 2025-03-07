@@ -44,4 +44,5 @@ for i = 1:min(size(mtrx_transProb)) % row counter for transition probability mat
 end
           
 
-%% 2) Generate ???
+%% 2) Generate 
+%% )
