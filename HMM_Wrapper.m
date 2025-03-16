@@ -13,12 +13,13 @@ dataDir    = [mainDir,filesep,'data_HMM',filesep]; % this is what I called the f
 %toolboxDir = [mainDir,filesep,'Toolboxes',filesep,'HMM-MAR-master',filesep]; % this is where I store the toolbox but you may have oranised that differently
 addpath(genpath('/Users/judy/HMM-MAR-master')) %not sure why the above isn't working, but this line works for me
 addpath(genpath(dataDir)); 
-addpath(genpath(toolboxDir)); 
+%addpath(genpath(toolboxDir)); 
 
 %2)
 
 %3)
-addpath(genpath('/Users/judy/nilearn_data/yeo_2011/Yeo_JNeurophysiol11_MNI152')
+addpath(genpath('/Users/judy/nilearn_data/yeo_2011/Yeo_JNeurophysiol11_MNI152'))
+% Need Tools for Nifti and ANALYZE package
 
 %% 1) Formating hmmar inputs
 
@@ -87,10 +88,12 @@ FractionalOccupancy = getFractionalOccupancy(Gamma, T, options,dim);
 [viterbipath] = hmmdecode(DataCll,T,hmm,1);
 
 % %Visualising Brain States
-k = [1:options.K] %specifies which states to visualise
-%parcellationfile = load_nii('/Users/judy/nilearn_data/yeo_2011/Yeo_JNeurophysiol11_MNI152/Yeo2011_17Networks_MNI152_FreeSurferConformed1mm_LiberalMask.nii.gz
-onconnectivity = 0
-maps = makeMap(hmm,k,parcellationfile,onconnectivity)
+k = [1:options.K]; %specifies which states to visualise
+%parcellation_struct = load_nii('/Users/judy/nilearn_data/yeo_2011/Yeo_JNeurophysiol11_MNI152/Yeo2011_17Networks_MNI152_FreeSurferConformed1mm_LiberalMask.nii.gz');
+%parcellation_file = parcellation_struct.img;
+parcellation_file = load('/Users/judy/nilearn_data/yeo_2011/Yeo_JNeurophysiol11_MNI152/Yeo2011_17Networks_MNI152_FreeSurferConformed1mm_LiberalMask.nii.gz')
+onconnectivity = 0;
+maps = makeMap(hmm,k,parcellation_file,onconnectivity)
 % load_nii('path_to_yeo2011_parcellation.nii');
 % %If parcellationfile (which contains the original parcellation or ICA decomposition) is a NIFTI 
 % file, then also a maskfile needs to be specified, and OSL needs to be installed an in the path; 
