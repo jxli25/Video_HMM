@@ -20,4 +20,6 @@ t.FontSize = 12;  % Increase font size
 t.FontName = 'Arial';  % Change font
 t.RowName = 'numbered';  % Add numbered row names
 
+% Save table
+
 disp(' 3a)Transition Probabilities table created.')
