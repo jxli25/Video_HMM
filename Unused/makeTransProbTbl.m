@@ -9,7 +9,7 @@
 
 function makeTransProbTbl(options, hmm)
 
-ColumnNms = {};
+ColumnNms  = cell(options.K,1);
 for ColNum = 1:options.K
     ColumnNms{ColNum} = ['Transition to State ', num2str(ColNum)];
 end
