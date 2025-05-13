@@ -16,5 +16,5 @@ disp ('--------2) Creating HMM model via hmmmar --------')
 
 %% 3) Results Analysis
 
-[FractionalOccupancy, viterbipath] = analyseResults(options, hmm, Gamma, T, DataCll);
+[FractionalOccupancy] = analyseResults(options, hmm, Gamma, T, DataCll, vpath);
 

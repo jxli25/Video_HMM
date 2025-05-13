@@ -52,11 +52,10 @@ dim = 1;
 FractionalOccupancy = getFractionalOccupancy(Gamma, T, options, dim);
 filename = ['/Users/judy/Video_HMM/Outputs/OutputsFromHMM_Wrapper/FractionalOccupancy_' datestr(now, 'yyyy-mm-dd_HH-MM-SS') '.txt'];
 writematrix(FractionalOccupancy, filename)
-if dim == 1
-    disp (' 3b) Fractional occupancy **average** saved to same path.')
+if dim = 1
+    disp (' 3b) Fractional occupancy saved to same path.')
 else
-    disp (' 3b) Fractional occupancy **for individuals** saved to same path.')
-end
+    disp ()
 
 %% 3c) Viterbi path
 filename = ['/Users/judy/Video_HMM/Outputs/OutputsFromHMM_Wrapper/ViterbiPath_' datestr(now, 'yyyy-mm-dd_HH-MM-SS') '.txt'];
