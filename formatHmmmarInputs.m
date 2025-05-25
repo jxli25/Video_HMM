@@ -38,9 +38,9 @@ options.verbose = 1;
 options.Fs      = 1/0.8; %Fs is 1/0.8 (frequency is how many pictures per sec)
 options.id_mixture = 1;
 %Initialisation and training
-options.initrep = 200;
-options.initcyc = 2;
-options.cyc = 5;
+options.initrep = 10;
+options.initcyc = 10;
+options.cyc = 300;
 %DirichletDiag makes states more sticky
 %cyc, initrep, initcyc incr can incr number of iterations
 %pca does dimensionality reduction from initial number (e.g. to number
