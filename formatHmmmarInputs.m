@@ -17,6 +17,8 @@ disp ('--------1) Formatting hmmmar inputs --------')
 % DataCll = cell(1,1);
 %%%% Load individual parcellated subject files into "DataCll"
 % format needs to be no timepoint X no channels
+
+
 DataCll = load([directories.dataDir,'/Yeo_parcellated_test_sub.txt'], "-ascii");
 DataCll = {DataCll};
 
