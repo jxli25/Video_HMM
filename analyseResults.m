@@ -48,7 +48,7 @@ writetable(TableToSave, fullPath);
 disp([' 3a) Transition Probabilities table created and saved to', folderPath])
 
 %% 3b) Fractional Occupancy
-dim = 1; 
+dim = 2; 
 FractionalOccupancy = getFractionalOccupancy(Gamma, T, options, dim);
 filename = ['/Users/judy/Video_HMM/Outputs/OutputsFromHMM_Wrapper/FractionalOccupancy_' datestr(now, 'yyyy-mm-dd_HH-MM-SS') '.txt'];
 writematrix(FractionalOccupancy, filename)
