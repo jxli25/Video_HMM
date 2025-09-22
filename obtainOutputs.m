@@ -13,7 +13,7 @@
 % 3d) Visual brain images of the different HMM hidden states
 %
 
-function [FractionalOccupancy] = analyseResults(options, hmm, Gamma, T, DataCll,vpath)
+function [FractionalOccupancy] = obtainOutputs(options, hmm, Gamma, T, DataCll,vpath)
 
 disp( '--------3) Creating outputs --------')
 

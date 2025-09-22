@@ -14,7 +14,8 @@ disp ('--------2) Creating HMM model via hmmmar --------')
 
 [hmm, Gamma, Xi, vpath, GammaInit, residuals, fehist] = hmmmar(DataCll,T,options); 
 
-%% 3) Results Analysis
+%% 3) Obtain Outputs
 
-[FractionalOccupancy] = analyseResults(options, hmm, Gamma, T, DataCll, vpath);
+[FractionalOccupancy] = obtainOutputs(options, hmm, Gamma, T, DataCll, vpath);
 
+%% 4) Perform Statistical Analysis
