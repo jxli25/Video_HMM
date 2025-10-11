@@ -4,18 +4,27 @@
 
 directories = initialiseImportsandPaths();
 
-%% 1) Formating hmmmar inputs
+%% 1) Import para-fMRI data
+
+%[] = pcnsDataExtract
+
+%% 2) Formatting hmmmar inputs
 
 [DataCll, T, options] = formatHmmmarInputs(directories);
 
-%% 2) HMM Estimation via hmmar
+%% 3) HMM Estimation via hmmar
 
 disp ('--------2) Creating HMM model via hmmmar --------')
 
 [hmm, Gamma, Xi, vpath, GammaInit, residuals, fehist] = hmmmar(DataCll,T,options); 
 
-%% 3) Obtain Outputs
+%% 4) Obtain Outputs
 
-[FractionalOccupancy] = obtainOutputs(options, hmm, Gamma, T, DataCll, vpath);
+[TransitionProbabilities, FractionalOccupancy, ViterbiPath, SwitchingRates] = obtainOutputs(options, hmm, Gamma, T, DataCll,vpath)
 
-%% 4) Perform Statistical Analysis
+%% 5) Decode Brain States
+
+
+%% 6) Perform Statistical Analysis
+
+% look at user guide - has built in stats

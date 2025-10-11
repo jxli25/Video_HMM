@@ -2,6 +2,7 @@
 %
 %INPUTS: 
 % directories
+% manual editing of options below
 %
 %OUTPUTS:
 % DataCll
