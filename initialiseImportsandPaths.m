@@ -51,7 +51,7 @@ switch uid(1: end-1)
         options.OS = 'Mac';
         options.PC = 'Macbook';
         
-        directories.dataDir    = ['/Users/judy/data_HMM',filesep];
+        directories.dataDir    = ['/Volumes/SP PHD U3/x_psychosis_data',filesep];
         addpath(genpath('/Users/judy/HMM-MAR-master'));
         addpath(genpath(directories.dataDir));
         addpath(genpath('/Users/judy/nilearn_data/yeo_2011/Yeo_JNeurophysiol11_MNI152'));

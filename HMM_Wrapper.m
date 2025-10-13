@@ -6,7 +6,7 @@ directories = initialiseImportsandPaths();
 
 %% 1) Import para-fMRI data
 
-%[] = pcnsDataExtract
+[] = pcnsDataExtract
 
 %% 2) Formatting hmmmar inputs
 
@@ -24,7 +24,14 @@ disp ('--------2) Creating HMM model via hmmmar --------')
 
 %% 5) Decode Brain States
 
+% 5a) Use decodeBrainStates (python) to decode
+
+% 5b) Use visualiseBrainStates to visualise
+
+[] = visualiseBrainStates ()
 
 %% 6) Perform Statistical Analysis
+
+[] = doStats ()
 
 % look at user guide - has built in stats

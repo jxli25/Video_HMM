@@ -15,13 +15,13 @@ disp ('--------1) Formatting hmmmar inputs --------')
 
 % 1a) Format "DataCll" (subject data)
 %%% Initialise "DataCll" cell w correct dimensions
-% DataCll = cell(1,1);
+% DataCll = cell(1,1); @@@@@@@@@@@@@@@!!!!!!!!!!!!!!
 %%%% Load individual parcellated subject files into "DataCll"
-% format needs to be no timepoint X no channels
+% format needs to be no timepoint X no channels (327 x 17)
 
 
-DataCll = load([directories.dataDir,'/Yeo_parcellated_test_sub.txt'], "-ascii");
-DataCll = {DataCll};
+DataCll = load([directories.dataDir,%%%%%%%%%%@@@@@@@@@@@@@@@!!!!!!!!!!!!!!], "-ascii");
+% DataCll = {DataCll}; ????? do I want to nest DataCll into a 1x1 cell
 
 % 1b) Format "T" (time)
 %%% Initialise "T" cell w correct dimensions

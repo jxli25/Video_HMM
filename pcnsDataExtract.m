@@ -1,14 +1,26 @@
+%% 1) Import para fMRI data
+
+% INPUTS: 
+% directories.dataDir
+%
+% OUTPUTS:
+% data (matlab table of data)
+% pcnsDataTable
+
 function pcnsDataExtract
 
 options = specifyOptions;
 
-%% LOAD REDCap datafile
-file = dir([options.paths.DBExport,'PCNS_RedCap_Export.csv']);
-data = readtable([options.paths.DBExport,file.name]);
+%% LOAD psychosis datafile
+file = dir(directories.dataDir); 
+data = readtable(directories.dataDir %%%%%@@@@@@@@@!!!!!!!!!); 
+
+%Find range of subject IDs
 minID = min(data.record_id);
 maxID = max(data.record_id);
-IDspan = maxID - minID + 1;
+IDspan = maxID - minID + 1; 
 
+%Initialise variable arrays
 record_id   = NaN(IDspan,1);
 group       = NaN(IDspan,1);
 sex         = NaN(IDspan,1);
@@ -34,12 +46,16 @@ congruentHRaverage = NaN(IDspan,1);
 %% NEED TO ADD:
 rowIdx = 1;
 
+% loop through every possible record_id
 for n = 1:max(data.record_id)
-    id_rows   = find(data.record_id==n);
+    id_rows   = find(data.record_id==n); % find data row(s) for single participant
+    % if there are no data rows
     if ~isempty(id_rows)
+        % identify which rows correspond to which variable
         details_row = intersect(id_rows,find(strcmp(data.redcap_repeat_instrument,'participant_details')));
         demogr_row = intersect(id_rows,find(strcmp(data.redcap_repeat_instrument,'demographics')));
         clinical_row = intersect(id_rows,find(strcmp(data.redcap_repeat_instrument,'clinical')));
+        % if there are duplicates, keep only the first
         if numel(details_row)>1
             details_row = details_row(1);
         end
@@ -56,16 +72,18 @@ for n = 1:max(data.record_id)
         % and age to the final table
 
         %% add more exclusions (see end of file)?
-        if data.valid_any(demogr_row) ~= 1
+        
+        % apply exclusion criteria
+        if data.valid_any(demogr_row) ~= 1 %data not valid
             continue;
         end
-        if data.valid_cfacei(demogr_row) ~= 1
+        if data.valid_cfacei(demogr_row) ~= 1 %if C-FACE-I data not valid
             continue;
         end
-        if data.fsiq2(demogr_row) < 80
+        if data.fsiq2(demogr_row) < 80 % IQ <80
             continue;
         end
-        if data.pilotorreal(demogr_row) ~=2
+        if data.pilotorreal(demogr_row) ~=2 % pilot subject rather than "real" one
             continue;
         end
         if rowIdx == 1
