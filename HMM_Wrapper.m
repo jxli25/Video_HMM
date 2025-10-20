@@ -2,15 +2,15 @@
 
 %% 0) Imports/paths
 
-directories = initialiseImportsandPaths();
+[directories] = initialiseImportsandPaths();
 
 %% 1) Import para-fMRI data
 
-[] = pcnsDataExtract
+[pcnsDataTable] = pcnsDataExtract(directories);
 
 %% 2) Formatting hmmmar inputs
 
-[DataCll, T, options] = formatHmmmarInputs(directories);
+[DataCll, HODDataCll, T, options] = formatHmmmarInputs(directories);
 
 %% 3) HMM Estimation via hmmar
 
@@ -28,10 +28,10 @@ disp ('--------2) Creating HMM model via hmmmar --------')
 
 % 5b) Use visualiseBrainStates to visualise
 
-[] = visualiseBrainStates ()
+visualiseBrainStates ()
 
 %% 6) Perform Statistical Analysis
 
-[] = doStats ()
+doStats ()
 
 % look at user guide - has built in stats

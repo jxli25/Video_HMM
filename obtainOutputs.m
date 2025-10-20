@@ -1,4 +1,4 @@
-%% 3) Analyse Results
+%% 4) Obtain Outputs
 
 %INPUTS: 
 % 3a) options, hmm
@@ -62,7 +62,7 @@ end
 
 %% 3c) Viterbi path
 
-ViterbiPath = vpath
+ViterbiPath = vpath;
 
 filename = ['/Users/judy/Video_HMM/Outputs/OutputsFromHMM_Wrapper/ViterbiPath_' datestr(now, 'yyyy-mm-dd_HH-MM-SS') '.txt'];
 writematrix(vpath, filename)
@@ -70,4 +70,4 @@ disp( ' 3c) Viterbi path saved to same path.')
 
 %% 3d) Switching Rates
 
-SwitchingRates = getSwitchingRate
+SwitchingRates = getSwitchingRate (Gamma,T,options);

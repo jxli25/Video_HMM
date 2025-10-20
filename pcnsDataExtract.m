@@ -1,19 +1,19 @@
 %% 1) Import para fMRI data
 
 % INPUTS: 
-% directories.dataDir
+% directories
 %
 % OUTPUTS:
 % data (matlab table of data)
 % pcnsDataTable
 
-function pcnsDataExtract
+function [pcnsDataTable] = pcnsDataExtract(directories);
 
-options = specifyOptions;
+disp ("-------------1) Import para-fMRI data ---------------")
 
 %% LOAD psychosis datafile
-file = dir(directories.dataDir); 
-data = readtable(directories.dataDir %%%%%@@@@@@@@@!!!!!!!!!); 
+%file = directories.parafMRIdata; 
+data = readtable(fullfile(directories.parafMRIdata, "CogEmotPsych_DATA_2025-10-13_1359.csv")); 
 
 %Find range of subject IDs
 minID = min(data.record_id);
@@ -32,9 +32,9 @@ valid_cfacei   = NaN(IDspan,1);
 panss       = NaN(IDspan,1);
 panssPositive = NaN(IDspan,1);
 panssNegative = NaN(IDspan,1);
-baselineHR = NaN(IDspan,1);
-incongruentHRaverage = NaN(IDspan,1);
-congruentHRaverage = NaN(IDspan,1);
+% baselineHR = NaN(IDspan,1);
+% incongruentHRaverage = NaN(IDspan,1);
+% congruentHRaverage = NaN(IDspan,1);
 
 %% EXTRACT data
 
@@ -95,10 +95,10 @@ for n = 1:max(data.record_id)
             FSIQ(rowIdx,:)  = data.fsiq2(demogr_row);
             meds_chlor(rowIdx,:)  = data.meds_chlor(demogr_row);
             valid_cfacei(rowIdx,:)  = data.valid_cfacei(demogr_row);
-            HR = cFaceHR(record_id(rowIdx));
-            baselineHR(rowIdx,:) = HR.baseline;
-            incongruentHRaverage(rowIdx,:) = HR.incongruentAverage;
-            congruentHRaverage(rowIdx,:) = HR.congruentAverage;
+            %HR = cFaceHR(record_id(rowIdx));
+            % baselineHR(rowIdx,:) = HR.baseline;
+            % incongruentHRaverage(rowIdx,:) = HR.incongruentAverage;
+            % congruentHRaverage(rowIdx,:) = HR.congruentAverage;
 
             %% GET and ORGANIZE PANSS data from REDCap export
             if ~isempty(clinical_row)
@@ -134,10 +134,10 @@ for n = 1:max(data.record_id)
             FSIQ(rowIdx,:)  = data.fsiq2(demogr_row);
             meds_chlor(rowIdx,:)  = data.meds_chlor(demogr_row);
             valid_cfacei(rowIdx,:)  = data.valid_cfacei(demogr_row);
-            HR = cFaceHR(record_id(rowIdx));
-            baselineHR(rowIdx,:) = HR.baseline;
-            incongruentHRaverage(rowIdx,:) = HR.incongruentAverage;
-            congruentHRaverage(rowIdx,:) = HR.congruentAverage;
+            % HR = cFaceHR(record_id(rowIdx));
+            % baselineHR(rowIdx,:) = HR.baseline;
+            % incongruentHRaverage(rowIdx,:) = HR.incongruentAverage;
+            % congruentHRaverage(rowIdx,:) = HR.congruentAverage;
             %% GET and ORGANIZE PANSS data from REDCap export
             if ~isempty(clinical_row)
                 sum_panssPositive = 0;
@@ -164,69 +164,12 @@ for n = 1:max(data.record_id)
     end
 end
 
-pcnsDataTable = table(record_id, group, age_years, sex, edu_cat, FSIQ, meds_chlor, baselineHR, incongruentHRaverage, congruentHRaverage, panss, panssPositive, panssNegative, 'VariableNames',...
-    {'ID','group', 'age','sex','education', 'FSIQ','Chlorpromazine equivalents (mg)', 'baselineHR', 'incongruentHRaverage', 'congruentHRaverage', 'panss','panssPositive','panssNegative'});
+pcnsDataTable = table(record_id, group, age_years, sex, edu_cat, FSIQ, meds_chlor, panss, panssPositive, panssNegative, 'VariableNames',...
+    {'ID','group', 'age','sex','education', 'FSIQ','Chlorpromazine equivalents (mg)','panss','panssPositive','panssNegative'});
 
 deleteIds = find(isnan(pcnsDataTable.ID));
 pcnsDataTable(deleteIds,:) = [];
 
-writetable(pcnsDataTable,[options.paths.DBExport,'pcnsDataTable.csv'])
+writetable(pcnsDataTable, fullfile(directories.parafMRIdata, 'pcnsDataTable.csv'))
+disp ("Para-fMRI data saved as pcnsDataTable at " + directories.parafMRIdata)
 end
-
-%{
-
-%% GET and ORGANIZE participant data from REDCap export
-
-    Participant ID          = record_id (corresponds with PCNS_ID_BL in MRI folders
-                            = starts at 0 in HRD analysis output
-                            outcomes_myhrd_reduced
-
-    **DEMOGRAPHICS:
-    Age                     = age_years
-    Sex                     = sex (1 male, 2 female)
-    FSIQ WASI II            = fsiq2
-    Education               = education (1, Didn't finish HS; 2, High
-    school; 3, Non-university qualification; 4, Bachelor's; 5, Master's; 6, Doctorate)
-
-
-    Psych medication        = meds_psych (text)
-    Diagnosis               = dx_dsm (0==none?, 1 schizophrenia, 2 schizoaffective, 3 bipolar, 4 MDD, 5 delusional disorder, 6 drug-induced psychosis)
-
-
-
-    **EXCLUSIONS: 
-    Exclusion MH            = ex1hc_mental (If control, 0 == No history of
-                              mental health issues)
-    Exclusion TBI/neuro     = ex2_neuro (0 == no; 1 == yes)
-    Exclusion SUD           = ex1_substance (0 == no)
-    Not pilot               = pilotreal (1 == pilot, 2 == study)
-    Completed (all?)details = participant_details_complete (2 = complete)
-    Attended session        = attended (1 == attended, 2 or nothing == did
-                              not)
-    Include in analysis     = valid_any (1 = include, others had too much missing data/tasks etc)
-
-    completed cface?        = valid_cfacei (1 == true)
-
-
-    **MAIN ANALYSIS VARIABLES
-    Group                   = group (control == 1, psychosis == 2)
-    Pupil                   = pupil average (x second window following
-    incongruent trials?)
-
-    **MAIN COVARIATES
-    baselineHR
-    baselinePupil
-    
-   
-%}
-
-
-%% loop through pupil records - identify incongruent trials
-% calculate average - save to participant row
-
-%% loop through ppg records - identify incongruent trials
-% calculate average - save to participant row
-%%
-
-%%
-

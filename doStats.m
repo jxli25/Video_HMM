@@ -7,7 +7,7 @@
 % 
 %
 
-function [] = doStats()
+function [] = doStats(FractionalOccupancy)
 
 %% 6a) Transition Probabilities
 
@@ -15,7 +15,21 @@ function [] = doStats()
 
 % II) Analyse differences between the clinical and control group for each transition probability (# BS x # BS matrix) using t-tests.
 
-%% 6b) Fractional Occupancy
+%% 6b.I) Fractional Occupancy - across entire video
+
+% I) Sort FO (dim == 1 by subject) into clinical vs healthy groups
+
+% Actual data:
+%%% Add FO as separate column to pcnsDataTable
+
+% Fake data:
+% I) Assign vector for group
+% group_id = [1 1 2 2]'
+
+% II) Conduct MANOVA
+[d, p, stats] = manova1(FractionalOccupancy, group_id)
+
+%% 6b.II) Fractional Occupancy - by segment
 
 % I) Get segmented data and calculate FO of each BS for each segment within each group. 
 
@@ -36,8 +50,8 @@ function [] = doStats()
 % input data:
 % data = n x K matrix where n = # observations (ie # of time points in segment), p = # dependent
 % variables
-% e.g. data = [ each participant makes one row of all their FOs in this
-% segment, each column is one brain state out of K ]
+% e.g. data = [each participant makes one row of all their FOs in this
+% segment, each column is one brain state out of K]
 % group = vector indicating which group each participant (ie each row)
 % belongs to
 
@@ -48,6 +62,7 @@ function [] = doStats()
 
 
 % III) If a significant effect is found, interpret using post-hoc t-tests. 
+
 
 %% 6c) Switching Rates
 

@@ -5,7 +5,7 @@
 %OUTPUTS: 'directories' struct with paths to data required for computation
 %
 
-function directories = initialiseImportsandPaths
+function [directories] = initialiseImportsandPaths;
 
 disp('--------0) Initialising imports and generating paths--------')
 
@@ -51,12 +51,14 @@ switch uid(1: end-1)
         options.OS = 'Mac';
         options.PC = 'Macbook';
         
-        directories.dataDir    = ['/Volumes/SP PHD U3/x_psychosis_data',filesep];
+        %directories.dataDir    = ['/Volumes/USB_1TB/x_psychosis_data',filesep]; %%%%%%########@@@@@@!!!!!!!
+        directories.parafMRIdata = ['/Volumes/USB_1TB/x_psychosis_data',filesep];
+        directories.dataDir    = ['/Volumes/USB_1TB/x_psychosis_data/fake_data/fake_parcellated',filesep];
         addpath(genpath('/Users/judy/HMM-MAR-master'));
         addpath(genpath(directories.dataDir));
         addpath(genpath('/Users/judy/nilearn_data/yeo_2011/Yeo_JNeurophysiol11_MNI152'));
     
-        disp ('directories generated.')
+        disp ('Directories generated.')
 end
 
 

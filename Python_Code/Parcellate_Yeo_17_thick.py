@@ -2,51 +2,54 @@
 from nilearn import datasets
 from nilearn.maskers import NiftiLabelsMasker
 
-import matplotlib.pyplot as plt
 import numpy
 
-import os
-from datetime import datetime
+# import matplotlib.pyplot as plt
+
+# import os
+# from datetime import datetime
 
 
 #### PARCELLATION
 
+#Get Atlas
+dataset = datasets.fetch_atlas_yeo_2011(data_dir=None, url=None, resume=True, verbose=1)
+atlas = dataset.thick_17  # Using the 17-network version
+label_names = [f"Network_{j}" for j in range(1, 18)]  # Create network labels 1-17
+
+#Settings for NiftiLabelsMasker
+masker = NiftiLabelsMasker( #class w variables and functions (e.g. fit_transform)
+                           
+#Preprocessing settings
+    labels_img=atlas,
+    standardize='zscore_sample', #"zscore_sample", #Z scores the voxels to make mean = 0
+    memory="nilearn_cache",
+    verbose=5,
+    
+#Temporal filter settings
+    high_pass=0.01,  # High pass frequency in Hz
+    low_pass=0.15,   # Low pass frequency in Hz
+    t_r=0.8         # Repetition time in seconds
+    ) 
+
 ###Create loop to go through files iteratively
 
-for i in range (1, @@@): ######@@@@@@@@@@@@@@@@@@@@@!!!!!!!!!!!!!!!!!!
+print ("1. got to the loop")
+
+for i in range (1, 5): 
 
     # Get fMRI data
-    data1 = datasets.fetch_development_fmri(n_subjects=1, reduce_confounds=True)
-    fmri_filename1 = ######@@@@@@@@@@@@@@@@@@@@@!!!!!!!!!!!!!!!!!!
+    #fmri_filename1 = f"/Volumes/USB_1TB/x_psychosis_data/fmriprep_aroma_movie/sub-{i:03d}/func/sub-{i:03d}_task-movie_run-01_space-MNI152NLin6Asym_res-2_desc-brain_mask.nii.gz"
+    fmri_filename1 = f"/Volumes/USB_1TB/x_psychosis_data/fake_data/fake_postprocessed/fake_sub_{i:03d}.nii"
     
-    #Get Atlas
-    dataset = datasets.fetch_atlas_yeo_2011(data_dir=None, url=None, resume=True, verbose=1)
-    atlas = dataset.thick_17  # Using the 17-network version
-    label_names = [f"Network_{i}" for i in range(1, 18)]  # Create network labels 1-17
-    
-    
-    #Settings for NiftiLabelsMasker
-    masker = NiftiLabelsMasker( #class w variables and functions (e.g. fit_transform)
-                               
-    #Preprocessing settings
-        labels_img=atlas,
-        standardize='zscore_sample', #"zscore_sample", #Z scores the voxels to make mean = 0
-        memory="nilearn_cache",
-        verbose=5,
-        
-    #Temporal filter settings
-        high_pass=0.01,  # High pass frequency in Hz
-        low_pass=0.15,   # Low pass frequency in Hz
-        t_r=0.8         # Repetition time in seconds
-    ) 
-    
+    print (f"2. inside loop where i = {i}")
     #Parcellation via fit_transform function
     time_series = masker.fit_transform(fmri_filename1) #array of shape (n_timepoints, n_labels), containing the "parcel-mean" values at each time point
     
-    ### POST PARCELLATION
-    
     # Save parcellated data
-    numpy.savetxt(fname= ######@@@@@@@@@@@@@@@@@@@@@!!!!!!!!!!!!!!!!!!, X=time_series)
+    #numpy.savetxt(fname= f"/Volumes/USB_1TB/x_psychosis_data/parcellated_subs/parcellated_sub{i:03d}", X=time_series)
+    numpy.savetxt(fname= f"/Volumes/USB_1TB/x_psychosis_data/fake_data/fake_parcellated/fake_parcellated_sub{i:03d}.txt", X=time_series)
+                 
 
 ### BELOW IS FURTHER VISUALISATION IF DESIRED
 

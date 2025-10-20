@@ -6,29 +6,43 @@
 %
 %OUTPUTS:
 % DataCll
+% HODDataCll
 % T
 % Options
 
-function [DataCll, T, options] = formatHmmmarInputs(directories)
+function [DataCll, HODDataCll, T, options] = formatHmmmarInputs(directories)
 
-disp ('--------1) Formatting hmmmar inputs --------')
+disp ('--------2) Formatting hmmmar inputs --------')
 
-% 1a) Format "DataCll" (subject data)
-%%% Initialise "DataCll" cell w correct dimensions
-% DataCll = cell(1,1); @@@@@@@@@@@@@@@!!!!!!!!!!!!!!
+% 1a) Format "DataCll" and "HODDataCll" (subject data)
+
 %%%% Load individual parcellated subject files into "DataCll"
 % format needs to be no timepoint X no channels (327 x 17)
 
+files = dir(fullfile(directories.dataDir, 'fake_parcellated_sub*.txt')); 
+file_num = length(files);
+for i = 1:file_num;
+    filename = fullfile(directories.dataDir, sprintf('fake_parcellated_sub%03d.txt', i));
+    DataCll{i} = load(filename);  % store each loaded array in a cell array
+    T{i} = 327;
+end
 
-DataCll = load([directories.dataDir,%%%%%%%%%%@@@@@@@@@@@@@@@!!!!!!!!!!!!!!], "-ascii");
-% DataCll = {DataCll}; ????? do I want to nest DataCll into a 1x1 cell
+%%% Do same for HOD data set
 
-% 1b) Format "T" (time)
-%%% Initialise "T" cell w correct dimensions
-T = cell(1,1);
+files = dir(fullfile(directories.dataDir, 'fake_parcellated_sub*.txt')); 
+file_num = length(files);
+for i = 1:file_num;
+    filename = fullfile(directories.dataDir, sprintf('HOD_fake_parcellated_sub%03d.txt', i));
+    HODDataCll{i} = load(filename);  % store each loaded array in a cell array
+    T{i} = 327;
+end
 
-%%% Populate "T" w number of slices through time
-T{1,1} = 327;
+% % 1b) Format "T" (time)
+% %%% Initialise "T" cell w correct dimensions
+% T = cell(1,1);
+% 
+% %%% Populate "T" w number of slices through time
+% T{1,1} = 327;
 
 % 1c) Format "options"
 options = struct();
@@ -44,6 +58,8 @@ options.id_mixture = 1;
 options.initrep = 10;
 options.initcyc = 10;
 options.cyc = 300;
+options.useParallel = 0;
+%options.useParallel==1
 %DirichletDiag makes states more sticky
 %cyc, initrep, initcyc incr can incr number of iterations
 %pca does dimensionality reduction from initial number (e.g. to number
