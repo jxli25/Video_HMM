@@ -19,7 +19,7 @@ disp( '--------3) Creating outputs --------')
 
 %% 3a) Transition probabilities & Table
 
-TransitionProbabilties = getTransProbs(hmm)
+TransitionProbabilities = getTransProbs(hmm);
 
 ColumnNms = {};
 for ColNum = 1:options.K

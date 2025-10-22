@@ -5,39 +5,31 @@ Created on Mon Oct 13 10:12:44 2025
 
 @author: judy
 """
-from neurosynth.analysis import decode
+from nimare.dataset import fetch_neurosynth
+from nimare.decode import CorrelationDecoder
+import nibabel as nib
 
-# loading a dataset
-dataset = #### Clarify which fMRI maps!
+# 1. Fetch a Neurosynth dataset
+dset = fetch_neurosynth(version='7')
 
-# initialising a decoder
-decoder = decode.Decoder(dataset, features=['emotion', 'pain', 'somatosensory', 'wm', 'inhibition'])
+# 2. Load your own unthresholded fMRI map
+img = nib.load('my_stat_map.nii.gz')
 
-# decoding specified input images
-result = decoder.decode(['vIns.nii.gz', 'dIns.nii.gz', 'pIns.nii.gz'], save='decoding_results.txt') ## VIns.nii.gz is an example image provided for decoding
+# 3. Initialize the decoder
+decoder = CorrelationDecoder(
+    features='neurosynth',  # Use terms from the Neurosynth dataset
+    target_image=img
+)
 
+# 4. Fit the decoder to the dataset
+decoder.fit(dset)
 
+# 5. Run decoding
+results = decoder.transform(img)
 
+# 6. Inspect the output
+print(results.sort_values(by='correlation', ascending=False).head())
 
-# from neurosynth.base.dataset import Dataset
-# from neurosynth.analysis import decode
+#https://nbclab.github.io/nimare-paper/12_decoding.html?utm_source=chatgpt.com
 
-# # Load a saved Dataset file. This example will work with the 
-# # file saved in the create_a_new_dataset_and_load_features example.
-# dataset = Dataset.load('dataset.pkl')
-
-# # Initialize a new Decoder instance with a few features. Note that 
-# # if you don't specify a subset of features, ALL features in the 
-# # Dataset will be loaded, which will take a long time because 
-# # meta-analysis images for each feature need to be generated.
-# decoder = decode.Decoder(dataset, features=['emotion', 'pain', 'somatosensory', 'wm', 'inhibition'])
-
-# # Decode three images. The sample images here are coactivation 
-# # maps for ventral, dorsal, and posterior insula clusters, 
-# # respectively. Maps are drawn from data reported in 
-# # Chang, Yarkoni, Khaw, & Sanfey (2012); see paper for details.
-# # We save the output--an image x features matrix--to a file.
-# # By default, the decoder will use Pearson correlation, i.e., 
-# # each value in our results table indicates the correlation 
-# # between the input image and each feature's meta-analysis image.
-# result = decoder.decode(['vIns.nii.gz', 'dIns.nii.gz', 'pIns.nii.gz'], save='decoding_results.txt')
+#https://nimare.readthedocs.io/en/0.0.11/generated/nimare.decode.continuous.CorrelationDecoder.html#nimare.decode.continuous.CorrelationDecoder

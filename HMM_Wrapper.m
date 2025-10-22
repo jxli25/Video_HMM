@@ -14,13 +14,13 @@
 
 %% 3) HMM Estimation via hmmar
 
-disp ('--------2) Creating HMM model via hmmmar --------')
+disp ('--------3) Creating HMM model via hmmmar --------')
 
 [hmm, Gamma, Xi, vpath, GammaInit, residuals, fehist] = hmmmar(DataCll,T,options); 
 
 %% 4) Obtain Outputs
 
-[TransitionProbabilities, FractionalOccupancy, ViterbiPath, SwitchingRates] = obtainOutputs(options, hmm, Gamma, T, DataCll,vpath)
+[TransitionProbabilites, FractionalOccupancy, ViterbiPath, SwitchingRates] = obtainOutputs(options, hmm, Gamma, T, DataCll,vpath);
 
 %% 5) Decode Brain States
 
@@ -28,10 +28,10 @@ disp ('--------2) Creating HMM model via hmmmar --------')
 
 % 5b) Use visualiseBrainStates to visualise
 
-visualiseBrainStates ()
+%visualiseBrainStates ()
 
 %% 6) Perform Statistical Analysis
 
-doStats ()
+%doStats ()
 
 % look at user guide - has built in stats
