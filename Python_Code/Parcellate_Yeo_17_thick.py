@@ -34,7 +34,7 @@ masker = NiftiLabelsMasker( #class w variables and functions (e.g. fit_transform
 
 ###Create loop to go through files iteratively
 
-print ("1. got to the loop")
+print ("1. go to the loop")
 
 for i in range (1, 5): 
 
