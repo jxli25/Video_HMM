@@ -1,16 +1,14 @@
-%% CURRENTLY CODED FOR 1 TEST SUBJECT
-
 %% 0) Imports/paths
 
 [directories] = initialiseImportsandPaths();
 
 %% 1) Import para-fMRI data
 
-[pcnsDataTable] = pcnsDataExtract(directories);
+[pcnsDataTable, dataSet] = pcnsDataExtract(directories);
 
 %% 2) Formatting hmmmar inputs
 
-[DataCll, HODDataCll, T, options] = formatHmmmarInputs(directories);
+[DataCll, T, options] = formatHmmmarInputs(directories,dataSet);
 
 %% 3) HMM Estimation via hmmar
 
@@ -20,7 +18,7 @@ disp ('--------3) Creating HMM model via hmmmar --------')
 
 %% 4) Obtain Outputs
 
-[TransitionProbabilites, FractionalOccupancy, ViterbiPath, SwitchingRates] = obtainOutputs(options, hmm, Gamma, T, DataCll,vpath);
+[TransitionProbabilites, FractionalOccupancy, ViterbiPath, SwitchingRates] = obtainOutputs(options, hmm, Gamma, T, DataCll, vpath, directories);
 
 %% 5) Decode Brain States
 
@@ -32,6 +30,6 @@ disp ('--------3) Creating HMM model via hmmmar --------')
 
 %% 6) Perform Statistical Analysis
 
-%doStats ()
+% doStats ()
 
 % look at user guide - has built in stats

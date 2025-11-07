@@ -7,7 +7,7 @@
 % data (matlab table of data)
 % pcnsDataTable
 
-function [pcnsDataTable] = pcnsDataExtract(directories);
+function [pcnsDataTable, dataSet] = pcnsDataExtract(directories)
 
 disp ("-------------1) Import para-fMRI data ---------------")
 
@@ -15,23 +15,20 @@ disp ("-------------1) Import para-fMRI data ---------------")
 %file = directories.parafMRIdata; 
 data = readtable(fullfile(directories.parafMRIdata, "CogEmotPsych_DATA_2025-10-13_1359.csv")); 
 
-%Find range of subject IDs
-minID = min(data.record_id);
-maxID = max(data.record_id);
-IDspan = maxID - minID + 1; 
+dataSet = getDataSetInfo(directories);
 
 %Initialise variable arrays
-record_id   = NaN(IDspan,1);
-group       = NaN(IDspan,1);
-sex         = NaN(IDspan,1);
-age_years   = NaN(IDspan,1);
-FSIQ   = NaN(IDspan,1);
-edu_cat   = NaN(IDspan,1);
-meds_chlor   = NaN(IDspan,1);
-valid_cfacei   = NaN(IDspan,1);
-panss       = NaN(IDspan,1);
-panssPositive = NaN(IDspan,1);
-panssNegative = NaN(IDspan,1);
+record_id   = NaN(dataSet.nParticipants,1);
+group       = NaN(dataSet.nParticipants,1);
+sex         = NaN(dataSet.nParticipants,1);
+age_years   = NaN(dataSet.nParticipants,1);
+FSIQ        = NaN(dataSet.nParticipants,1);
+edu_cat     = NaN(dataSet.nParticipants,1);
+meds_chlor  = NaN(dataSet.nParticipants,1);
+valid_cfacei  = NaN(dataSet.nParticipants,1);
+panss         = NaN(dataSet.nParticipants,1);
+panssPositive = NaN(dataSet.nParticipants,1);
+panssNegative = NaN(dataSet.nParticipants,1);
 % baselineHR = NaN(IDspan,1);
 % incongruentHRaverage = NaN(IDspan,1);
 % congruentHRaverage = NaN(IDspan,1);
@@ -47,13 +44,13 @@ panssNegative = NaN(IDspan,1);
 rowIdx = 1;
 
 % loop through every possible record_id
-for n = 1:max(data.record_id)
-    id_rows   = find(data.record_id==n); % find data row(s) for single participant
+for n = 1:dataSet.nParticipants
+    id_rows   = find(data.record_id==dataSet.IDs(n)); % find data row(s) for single participant
     % if there are no data rows
     if ~isempty(id_rows)
         % identify which rows correspond to which variable
-        details_row = intersect(id_rows,find(strcmp(data.redcap_repeat_instrument,'participant_details')));
-        demogr_row = intersect(id_rows,find(strcmp(data.redcap_repeat_instrument,'demographics')));
+        details_row  = intersect(id_rows,find(strcmp(data.redcap_repeat_instrument,'participant_details')));
+        demogr_row   = intersect(id_rows,find(strcmp(data.redcap_repeat_instrument,'demographics')));
         clinical_row = intersect(id_rows,find(strcmp(data.redcap_repeat_instrument,'clinical')));
         % if there are duplicates, keep only the first
         if numel(details_row)>1
@@ -77,9 +74,7 @@ for n = 1:max(data.record_id)
         if data.valid_any(demogr_row) ~= 1 %data not valid
             continue;
         end
-        if data.valid_cfacei(demogr_row) ~= 1 %if C-FACE-I data not valid
-            continue;
-        end
+       
         if data.fsiq2(demogr_row) < 80 % IQ <80
             continue;
         end

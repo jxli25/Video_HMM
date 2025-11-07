@@ -13,7 +13,7 @@
 % 3d) Switching Rates
 %
 
-function [TransitionProbabilities, FractionalOccupancy, ViterbiPath, SwitchingRates] = obtainOutputs(options, hmm, Gamma, T, DataCll,vpath)
+function [TransitionProbabilities, FractionalOccupancy, ViterbiPath, SwitchingRates] = obtainOutputs(options, hmm, Gamma, T, DataCll,vpath, directories)
 
 disp( '--------3) Creating outputs --------')
 
@@ -40,9 +40,8 @@ TableToSave = array2table(tableData);
 TableToSave.Properties.VariableNames = t.ColumnName;
 % Add column labels to saved table: TableToSave = [table( cell2mat(ColumnNms) , 'VariableNames', {'Current State'}), T];
 % Save location
-folderPath = '/Users/judy/Video_HMM/Outputs/OutputsFromHMM_Wrapper';
 fileName = ['TransitionProbabilities_' datestr(now, 'yyyy-mm-dd_HH-MM-SS') '.csv'];
-fullPath = fullfile(folderPath, fileName);
+fullPath = fullfile(directories.dataDir, fileName);
 % Save the table
 writetable(TableToSave, fullPath);
 
@@ -52,7 +51,7 @@ disp([' 3a) Transition Probabilities table created and saved to', folderPath])
 %% 3b) Fractional Occupancy
 dim = 2; 
 FractionalOccupancy = getFractionalOccupancy(Gamma, T, options, dim);
-filename = ['/Users/judy/Video_HMM/Outputs/OutputsFromHMM_Wrapper/FractionalOccupancy_' datestr(now, 'yyyy-mm-dd_HH-MM-SS') '.txt'];
+filename = [directories.dataDir,'FractionalOccupancy_' datestr(now, 'yyyy-mm-dd_HH-MM-SS') '.txt'];
 writematrix(FractionalOccupancy, filename)
 if dim == 1
     disp (' 3b) Fractional occupancy **at each time point** saved to same path.')
@@ -64,7 +63,7 @@ end
 
 ViterbiPath = vpath;
 
-filename = ['/Users/judy/Video_HMM/Outputs/OutputsFromHMM_Wrapper/ViterbiPath_' datestr(now, 'yyyy-mm-dd_HH-MM-SS') '.txt'];
+filename = [directories.dataDir,'ViterbiPath_' datestr(now, 'yyyy-mm-dd_HH-MM-SS') '.txt'];
 writematrix(vpath, filename)
 disp( ' 3c) Viterbi path saved to same path.')
 

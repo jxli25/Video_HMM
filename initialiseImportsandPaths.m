@@ -5,7 +5,7 @@
 %OUTPUTS: 'directories' struct with paths to data required for computation
 %
 
-function [directories] = initialiseImportsandPaths;
+function [directories] = initialiseImportsandPaths
 
 disp('--------0) Initialising imports and generating paths--------')
 
@@ -37,13 +37,9 @@ switch uid(1: end-1)
 
         disp ('directories generated.')
 
-
         % May need Tools for Nifti and ANALYZE package for Neurosynth
         % visualisation in 3)
 
-
-
-         
 
     case 'judy' 
         disp('User identified as judy.')
@@ -53,10 +49,28 @@ switch uid(1: end-1)
         
         %directories.dataDir    = ['/Volumes/USB_1TB/x_psychosis_data',filesep]; %%%%%%########@@@@@@!!!!!!!
         directories.parafMRIdata = ['/Volumes/USB_1TB/x_psychosis_data',filesep];
-        directories.dataDir    = ['/Volumes/USB_1TB/x_psychosis_data/fake_data/fake_parcellated',filesep];
+        directories.dataDir    = ['/Volumes/USB_1TB/KatharinasVersion/Video_HMM/data/parcellated/HOD',filesep];
         addpath(genpath('/Users/judy/HMM-MAR-master'));
         addpath(genpath(directories.dataDir));
         addpath(genpath('/Users/judy/nilearn_data/yeo_2011/Yeo_JNeurophysiol11_MNI152'));
+    
+        disp ('Directories generated.')
+
+    
+    case 'kwellstein' %HMRI computer
+
+        disp('User identified as Katharina (HMRI computer).')
+
+        options.OS = 'Mac';
+        options.PC = 'Macbook';
+       
+        directories.parafMRIdata = ['/Volumes/Scratch/Video_HMM/data/parafMRI_data',filesep];
+        directories.dataDir    = ['/Volumes/Scratch/Video_HMM/data/parcellated',filesep];
+        directories.HODdataDir = [directories.dataDir,'HOD',filesep];
+        
+        addpath(genpath('/Users/kwellstein/Desktop/Video_HMM/toolbox/HMM-MAR-master'));
+        addpath(genpath(directories.dataDir));
+        addpath(genpath('/Volumes/Scratch/Video_HMM/nilearn_data/yeo_2011/Yeo_JNeurophysiol11_MNI152'));
     
         disp ('Directories generated.')
 end

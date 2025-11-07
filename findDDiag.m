@@ -5,7 +5,7 @@
 % candidate_prior (array) 
 % folds
 %
-% HODDataCll 
+% DataCll 
 % T 
 % options 
 % directories
@@ -14,7 +14,7 @@
 
 % CVFeCandidate_priors (structure)
 
-function [CVFeCandidate_priors] = findDDiag (candidate_prior, folds, HODDataCll, T, options, directories)
+function [CVFeCandidate_priors] = findDDiag (candidate_prior, folds, DataCll, T, options, directories)
 
 disp ("----- 1)Starting function for candidate DDiags-----")
 
@@ -39,7 +39,7 @@ for i = 1:length(candidate_prior) %cycle through all candidiate_priors
     % Predictive log-likelihood; use learned parameters to evaluate
     % likelihood of the hold-out sequence
 
-    [mcv, cv] = cvhmmmar(HODDataCll, T, options);
+    [mcv, cv] = cvhmmmar(DataCll, T, options);
 
     %Save likelihoods to CVFeCandidate_priors
 
@@ -59,10 +59,10 @@ for i = 1:length(candidate_prior); %cycle through all candidiate_priors
 
     % For each candidate_prior, create an HMM
 
-    [hmm, Gamma, Xi] = hmmmar(HODDataCll,T,options); 
+    [hmm, Gamma, Xi] = hmmmar(DataCll,T,options); 
 
     %Save free energy 'fe' to CVFeCandidate_priors
-    data = HODDataCll;
+    data = DataCll;
     CVFeCandidate_priors(i).fe = hmmfe(data,T,hmm,Gamma,Xi);
 
 end

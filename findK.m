@@ -14,7 +14,7 @@
 
 % FOFeCandidate_K (structure)
 
-function [FOFeCandidate_K] = findK(candidate_K, dim, HODDataCll, T, options, directories, Gamma);
+function [FOFeCandidate_K] = findK(candidate_K, dim, HODDataCll, T, options, directories, dataSet, Gamma)
 disp ("----- 2)Starting function for candidate Ks-----")
 
 %% Calculating FO and fe
@@ -24,10 +24,12 @@ FOFeCandidate_K = struct ('candidiate_K', {}, 'FO', {},'fe', {}); %structure sav
 disp ("Calculating FO and fe and saving to FOFeCandidate_K.")
 
 %%% change data source to HOD file
-files = dir(fullfile(directories.dataDir, 'HOD_fake_parcellated_sub*.txt')); 
-file_num = length(files);
-for i = 1:file_num;
-    filename = fullfile(directories.dataDir, sprintf('HOD_fake_parcellated_sub%03d.txt', i));
+d = dir(fullfile(directories.dataDir)); 
+files = dir(fullfile(directories.dataDir, 'sub*.txt'));
+
+nFiles = length(files);
+for i = 1:nFiles
+    filename = [directories.dataDir, dataSet.fileNames(i,:)];
     HODDataCll{i} = load(filename);  % store each loaded array in a cell array
     T{i} = 327;
 end
