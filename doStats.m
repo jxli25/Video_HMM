@@ -7,7 +7,7 @@
 % 
 %
 
-function [] = doStats(FractionalOccupancy)
+%function [] = doStats(FractionalOccupancy)
 
 %% 6a) Transition Probabilities
 
@@ -17,17 +17,15 @@ function [] = doStats(FractionalOccupancy)
 
 %% 6b.I) Fractional Occupancy - across entire video
 
-% I) Sort FO (dim == 1 by subject) into clinical vs healthy groups
-
-% Actual data:
-%%% Add FO as separate column to pcnsDataTable
-
-% Fake data:
-% I) Assign vector for group
-% group_id = [1 1 2 2]'
+% I)Sort Data
+% X = Data = FractionalOccupancy
+% group = group vector
+    group_id = pcnsDataTable.group;
+% alpha = significance level
+    alpha = 0.05;
 
 % II) Conduct MANOVA
-[d, p, stats] = manova1(FractionalOccupancy, group_id)
+[d, p, stats] = manova1(FractionalOccupancy, group_id, alpha)
 
 %% 6b.II) Fractional Occupancy - by segment
 

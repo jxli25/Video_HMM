@@ -12,7 +12,7 @@ dataSet = getDataSetInfo(directories);
 disp ('set up inputs');
 %% 1) Find Dirichilet Diag
 
-candidate_prior = [0.1, 0.5, 1, 2];
+candidate_prior = [0.5, 2, 5, 10, 15, 20];
 folds = 5; % Number of sections data will be split into and tested against each other, 1 section is test section each time
 
 % CV = crossvalidated loglikelihood

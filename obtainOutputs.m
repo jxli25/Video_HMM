@@ -46,17 +46,17 @@ fullPath = fullfile(directories.dataDir, fileName);
 writetable(TableToSave, fullPath);
 
 
-disp([' 3a) Transition Probabilities table created and saved to', folderPath])
+disp([' 3a) Transition Probabilities table created and saved to', fullPath])
 
 %% 3b) Fractional Occupancy
 dim = 2; 
 FractionalOccupancy = getFractionalOccupancy(Gamma, T, options, dim);
 filename = [directories.dataDir,'FractionalOccupancy_' datestr(now, 'yyyy-mm-dd_HH-MM-SS') '.txt'];
 writematrix(FractionalOccupancy, filename)
-if dim == 1
-    disp (' 3b) Fractional occupancy **at each time point** saved to same path.')
-else
+if dim == 2
     disp (' 3b) Fractional occupancy **for each trial (i.e. individual)** saved to same path.')
+else
+    disp (' 3b) Fractional occupancy **at each time point** saved to same path.')
 end
 
 %% 3c) Viterbi path
