@@ -33,3 +33,5 @@ disp ('--------3) Creating HMM model via hmmmar --------')
 % doStats ()
 
 % look at user guide - has built in stats
+
+%% 7) Plot Figures

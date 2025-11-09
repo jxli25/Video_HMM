@@ -60,7 +60,7 @@ options.DirichletDiag = 20; %DirichletDiag makes states more sticky
 %cyc, initrep, initcyc incr can incr number of iterations
 %pca does dimensionality reduction from initial number (e.g. to number
 %specified)
-options.plotGamma = 2;
+options.plotGamma = 1;
 
 disp (['Model set to **', num2str(options.K) , '** states.'])
 disp('HMM-MAR inputs formatted.')
