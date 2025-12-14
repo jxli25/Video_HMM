@@ -35,7 +35,7 @@ behaviour = [];  % behaviour with respect to which order the trials
 
 cm = jet(options.K);
 
-%% plot figures
+%% ----------1) plot Gamma----------
 % HEALTHY
 continuous = length(T_group1health)==1 || any(T_group1health(1)~=T_group1health); % show it as continuous data? 
 
@@ -91,3 +91,73 @@ ylim([0 1]);
 axis off;
 title('HMM State Color Key','FontSize',14);
 hold off;
+
+%% ----------- 2) plot Brain States --------------
+
+%parcellationfile = fullfile(directories.Atlases, 'Yeo2011_17Networks_MNI152_FreeSurferConformed1mm_LiberalMask.nii');
+
+%% Reslicing
+% Paths
+parc = fullfile(directories.Atlases, 'Yeo2011_17Networks_MNI152_FreeSurferConformed1mm_LiberalMask.nii');
+mask = fullfile(directories.Atlases, 'MNI152_T1_1mm_brain_mask.nii');
+resliced_parc = fullfile(directories.Atlases, 'Yeo2011_1mm_resliced.nii');
+
+% Load mask and parcellation headers
+Vmask = spm_vol(mask);
+Vparc = spm_vol(parc);
+
+% Reslice parcellation to match mask
+flags = struct('mask',0,'mean',0,'interp',1,'which',1);
+% spm_reslice({mask, parc}, flags);
+
+% The output will be saved as 'r<original filename>' by default
+% resliced_parc = fullfile(directories.Atlases, ['r' Vparc.fname]);
+
+%%
+% zip for makeMap
+parc_file = '/Users/judy/Video_HMM/Atlases/rYeo2011_17Networks_MNI152_FreeSurferConformed1mm_LiberalMask.nii';
+
+% Compress in the same folder
+gzip(parc_file);
+
+% Or compress to a specific folder
+gzip(parc_file, '/Users/judy/Video_HMM/Atlases/');
+%%
+
+%%
+resliced_parc = '/Users/judy/Video_HMM/Atlases/rYeo2011_17Networks_MNI152_FreeSurferConformed1mm_LiberalMask.nii.gz';
+
+%% Inputs
+k = options.K;
+parcellationfile = resliced_parc;
+maskfile = fullfile(directories.Atlases, 'MNI152_T1_1mm_brain_mask.nii');
+
+
+%% State maps
+
+onconnectivity = 20;
+
+%maps = makeMap(hmm,k,parcellationfile,maskfile,onconnectivity)
+
+plotHMMmapsGrid('my_maps.nii.gz', 100);
+
+
+%% State graphs
+threshold = 0.05
+outputfile = directories.Outputs
+
+graphs = makeBrainGraph(hmm,k,parcellationfile,[],[],[],[],threshold,outputfile)
+%% Connectivity circle graph
+
+graphs = makeConnectivityCircle(hmm,k)
+
+
+
+%% 3D views
+
+surfaceview = viewHMMmapsGrid('my_maps.nii.gz')
+
+%% Multi views
+
+orientation = 'sagittal';
+plotHMMMapsGrid(nifti_file, [], orientation)

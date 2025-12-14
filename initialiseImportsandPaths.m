@@ -49,7 +49,9 @@ switch uid(1: end-1)
         
         %directories.dataDir    = ['/Volumes/USB_1TB/x_psychosis_data',filesep]; %%%%%%########@@@@@@!!!!!!!
         directories.parafMRIdata = ['/Volumes/USB_1TB/x_psychosis_data',filesep];
-        directories.dataDir    = ['/Volumes/USB_1TB/KatharinasVersion/Video_HMM/data/parcellated/HOD',filesep];
+        directories.dataDir    = ['/Volumes/USB_1TB/forrest_data/shenn/',filesep];
+        directories.Atlases = ['/Users/judy/Video_HMM/Atlases',filesep];
+        directories.Outputs = ['/Users/judy/Video_HMM/Outputs',filesep];
         addpath(genpath('/Users/judy/HMM-MAR-master'));
         addpath(genpath(directories.dataDir));
         addpath(genpath('/Users/judy/nilearn_data/yeo_2011/Yeo_JNeurophysiol11_MNI152'));
